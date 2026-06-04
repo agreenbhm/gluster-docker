@@ -31,9 +31,9 @@ services:
     restart: unless-stopped
     command: >
       bash -c "
-      mkdir -p /mnt/gluster-mount && mount -t glusterfs
-      'gluster0:/gv-master' /mnt/gluster-mount 
-      && tail -f /dev/null
+      mkdir -p /mnt/gluster-mount;
+      mount -t glusterfs 'gluster0:/gv-master' /mnt/gluster-mount || true;
+      tail -f /dev/null
       "
 
   # gluster1:
