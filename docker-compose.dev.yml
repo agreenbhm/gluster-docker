@@ -1,0 +1,64 @@
+volumes:
+  gluster0-data:
+    driver: local
+services:
+  gluster0:
+    image: agreenbhm/gluster:ubuntu2404-dev
+    container_name: gluster0
+    privileged: true
+    environment:
+      - GLUSTER_MAX_PORT=49156
+      - ENV=DEV
+    ports:
+      - "24007:24007"
+      - "24008:24008"
+      - "49152:49152"
+      - "49153:49153"
+      - "49154:49154"
+      - "49155:49155"
+      - "49156:49156"
+      - "24007:24007/udp"
+      - "24008:24008/udp"
+      - "49152:49152/udp"
+      - "49153:49153/udp"
+      - "49154:49154/udp"
+      - "49155:49155/udp"
+      - "49156:49156/udp"
+    volumes:
+      - ./data0/etc:/etc/glusterfs
+      - ./data0/var:/var/lib/glusterd
+      - gluster0-data:/gluster0-data
+    restart: unless-stopped
+    command: >
+      bash -c "
+      mkdir -p /mnt/gluster-mount && mount -t glusterfs
+      'gluster0:/gv-master' /mnt/gluster-mount 
+      && tail -f /dev/null
+      "
+
+  # gluster1:
+  #   image: agreenbhm/gluster:ubuntu2404-dev
+  #   container_name: gluster1
+  #   privileged: true
+  #   environment:
+  #     - GLUSTER_MAX_PORT=49156
+  #     - ENV=DEV
+  #   # ports:
+  #   #   - "24007:24007"
+  #   #   - "24008:24008"
+  #   #   - "49152:49152"
+  #   #   - "49153:49153"
+  #   #   - "49154:49154"
+  #   #   - "49155:49155"
+  #   #   - "49156:49156"
+  #   #   - "24007:24007/udp"
+  #   #   - "24008:24008/udp"
+  #   #   - "49152:49152/udp"
+  #   #   - "49153:49153/udp"
+  #   #   - "49154:49154/udp"
+  #   #   - "49155:49155/udp"
+  #   #   - "49156:49156/udp"
+  #   volumes:
+  #     - ./data1/etc:/etc/glusterfs
+  #     - ./data1/var:/var/lib/glusterd
+  #   restart: unless-stopped

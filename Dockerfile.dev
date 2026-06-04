@@ -1,0 +1,14 @@
+FROM ubuntu:24.04
+
+RUN apt-get update && apt-get upgrade -yf && apt-get install -yf \ 
+    glusterfs-server nano openssh-server inetutils-ping iproute2
+
+RUN cp -a /etc/glusterfs /etc/glusterfs.defaults
+RUN cp -a /var/lib/glusterd /var/lib/glusterd.defaults
+RUN sed -i 's/^.*PermitRootLogin.*$/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN echo "root:password"|chpasswd
+
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]

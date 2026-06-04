@@ -1,3 +1,6 @@
+volumes:
+  gluster0-data:
+    driver: local
 services:
   gluster:
     image: agreenbhm/gluster:ubuntu2404
@@ -6,7 +9,6 @@ services:
     environment:
       - GLUSTER_MAX_PORT=49156
     ports:
-      - "2222:22"
       - "24007:24007"
       - "24008:24008"
       - "49152:49152"
@@ -25,3 +27,9 @@ services:
       - ./data/etc:/etc/glusterfs
       - ./data/var:/var/lib/glusterd
     restart: unless-stopped
+    command: >
+      bash -c "
+      mkdir -p /mnt/gluster-mount && mount -t glusterfs
+      'gluster0:/gv-master' /mnt/gluster-mount 
+      && tail -f /dev/null
+      "
