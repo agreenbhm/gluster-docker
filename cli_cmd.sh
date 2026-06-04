@@ -1,0 +1,1 @@
+docker run --privileged -p 24007:24007 -p 24008:24008 -p 49152:49152 -p 49153:49153 -p 49154:49154 -p 49155:49155 -p 49156:49156 agreenbhm/gluster:ubuntu2404
