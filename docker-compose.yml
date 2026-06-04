@@ -1,0 +1,27 @@
+services:
+  gluster:
+    image: agreenbhm/gluster:ubuntu2404
+    container_name: gluster
+    privileged: true
+    environment:
+      - GLUSTER_MAX_PORT=49156
+    ports:
+      - "2222:22"
+      - "24007:24007"
+      - "24008:24008"
+      - "49152:49152"
+      - "49153:49153"
+      - "49154:49154"
+      - "49155:49155"
+      - "49156:49156"
+      - "24007:24007/udp"
+      - "24008:24008/udp"
+      - "49152:49152/udp"
+      - "49153:49153/udp"
+      - "49154:49154/udp"
+      - "49155:49155/udp"
+      - "49156:49156/udp"
+    volumes:
+      - ./data/etc:/etc/glusterfs
+      - ./data/var:/var/lib/glusterd
+    restart: unless-stopped
